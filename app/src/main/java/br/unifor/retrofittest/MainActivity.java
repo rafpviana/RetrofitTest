@@ -3,6 +3,7 @@ package br.unifor.retrofittest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -13,10 +14,18 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView textViewContactsList, textViewContact, textViewContactCreated, textViewContactUpdated, textViewContactDeleted;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textViewContactsList = (TextView) findViewById(R.id.textViewContactsListId);
+        textViewContact = (TextView) findViewById(R.id.textViewContactId);
+        textViewContactCreated = (TextView) findViewById(R.id.textViewContactCreatedId);
+        textViewContactUpdated = (TextView) findViewById(R.id.textViewContactUpdatedId);
+        textViewContactDeleted = (TextView) findViewById(R.id.textViewContactDeletedId);
 
         getContacts();
         getContactById("10");
@@ -37,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 String jsonContacts = new Gson().toJson(response.body());
                 Log.i("onResponse Retrofit", " ");
                 Log.i("Contacts List", jsonContacts);
+                textViewContactsList.append(jsonContacts);
 
             }
 
@@ -44,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<ArrayList<Contact>> call, Throwable t) {
                 Log.i("onFailure Retrofit", t.getMessage());
                 Log.i("Contacts List", " ");
+                textViewContactsList.append(t.getMessage());
             }
         });
     }
@@ -60,12 +71,14 @@ public class MainActivity extends AppCompatActivity {
                 String jsonContact = new Gson().toJson(response.body());
                 Log.i("onResponse Retrofit", " ");
                 Log.i("Contact", jsonContact);
+                textViewContact.append(jsonContact);
             }
 
             @Override
             public void onFailure(Call<Contact> call, Throwable t) {
                 Log.i("onFailure Retrofit", t.getMessage());
                 Log.i("Contact", " ");
+                textViewContact.append(t.getMessage());
             }
         });
     }
@@ -81,12 +94,14 @@ public class MainActivity extends AppCompatActivity {
                 String jsonContactCreated = new Gson().toJson(response.body());
                 Log.i("onResponse Retrofit", " ");
                 Log.i("Contact Created", jsonContactCreated);
+                textViewContactCreated.append(jsonContactCreated);
             }
 
             @Override
             public void onFailure(Call<Contact> call, Throwable t) {
                 Log.i("onFailure Retrofit", t.getMessage());
                 Log.i("Contact Created", " ");
+                textViewContactCreated.append(t.getMessage());
             }
         });
     }
@@ -100,15 +115,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Contact> call, Response<Contact> response) {
                 String jsonContactUpdated = new Gson().toJson(response.body());
-
                 Log.i("onResponse Retrofit", " ");
                 Log.i("Contact Updated", jsonContactUpdated);
+                textViewContactUpdated.append(jsonContactUpdated);
             }
 
             @Override
             public void onFailure(Call<Contact> call, Throwable t) {
                 Log.i("onFailure Retrofit", t.getMessage());
                 Log.i("Contact Updated", " ");
+                textViewContactUpdated.append(t.getMessage());
             }
         });
     }
@@ -121,16 +137,17 @@ public class MainActivity extends AppCompatActivity {
         callContact.enqueue(new Callback<Contact>() {
             @Override
             public void onResponse(Call<Contact> call, Response<Contact> response) {
-                String jsonContactUpdated = new Gson().toJson(response.body());
-
+                String jsonContactDeleted = new Gson().toJson(response.body());
                 Log.i("onResponse Retrofit", " ");
-                Log.i("Contact Deleted", jsonContactUpdated);
+                Log.i("Contact Deleted", jsonContactDeleted);
+                textViewContactDeleted.append(jsonContactDeleted);
             }
 
             @Override
             public void onFailure(Call<Contact> call, Throwable t) {
                 Log.i("onFailure Retrofit", t.getMessage());
                 Log.i("Contact Deleted", " ");
+                textViewContactDeleted.append(t.getMessage());
             }
         });
     }
